@@ -1,0 +1,26 @@
+/* Mobile-first base is in style.css. Enhancements for larger screens below. */
+
+@media (min-width: 640px) {
+  .candidate-grid { grid-template-columns: repeat(2, 1fr); }
+  .menu-grid { grid-template-columns: repeat(2, 1fr); }
+  .modal-backdrop { align-items: center; }
+  .modal { border-radius: var(--radius-l); }
+}
+
+@media (min-width: 900px) {
+  .candidate-grid { grid-template-columns: repeat(3, 1fr); }
+  main { padding-top: 40px; }
+  .hero { padding-top: 60px; }
+}
+
+/* Small phones */
+@media (max-width: 360px) {
+  .btn { font-size: 14px; padding: 12px 16px; }
+  .topbar .brand { font-size: 13px; }
+}
+
+/* Admin table becomes horizontally scrollable on narrow screens */
+@media (max-width: 720px) {
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table.admin-table { min-width: 640px; }
+}

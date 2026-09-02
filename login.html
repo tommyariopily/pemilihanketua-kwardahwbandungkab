@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masuk — Pemilihan Ketua Kwarda HW Kabupaten Bandung</title>
+<link rel="icon" href="assets/logo-hw.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+<div class="page">
+  <header class="topbar">
+    <img class="logo" src="assets/logo-hw.png" alt="Logo Hizbul Wathan">
+    <div class="brand">Pemilihan Ketua Kwarda HW<small>Kabupaten Bandung</small></div>
+  </header>
+
+  <main class="narrow">
+    <div class="card center" style="margin-top:30px;">
+      <h2>Masuk ke Akun Anda</h2>
+      <p class="muted">Silakan login menggunakan akun Google Anda untuk melanjutkan proses pendaftaran atau pemilihan.</p>
+      <div id="googleSignInBtn" style="display:flex;justify-content:center;margin:22px 0 8px;"></div>
+      <p class="muted" style="font-size:12.5px;">1 akun Google hanya dapat digunakan untuk 1 akun pemilih.</p>
+    </div>
+  </main>
+
+  <footer class="footer">Kwartir Daerah Hizbul Wathan Kabupaten Bandung</footer>
+</div>
+
+<script src="config.js" onerror="document.write('&lt;script src=\'config.example.js\'&gt;&lt;/script&gt;')"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  AUTH.init('googleSignInBtn', function () {
+    APP.showLoading('Memeriksa akun Anda...');
+    APP.call('getCurrentUser', {}).then(function (res) {
+      APP.hideLoading();
+      if (res.status === 'NOT_REGISTERED') {
+        window.location.href = 'register.html';
+      } else {
+        window.location.href = 'dashboard.html';
+      }
+    }).catch(function () { APP.hideLoading(); });
+  });
+</script>
+</body>
+</html>

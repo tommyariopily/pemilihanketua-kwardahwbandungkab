@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — Pemilihan Ketua Kwarda HW Kabupaten Bandung</title>
+<link rel="icon" href="assets/logo-hw.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="page">
+  <header class="topbar">
+    <img class="logo" src="assets/logo-hw.png" alt="Logo Hizbul Wathan">
+    <div class="brand">Admin Panel<small>Pemilihan Ketua Kwarda HW Kab. Bandung</small></div>
+    <div class="spacer"></div>
+    <div class="user"><span id="adminName"></span></div>
+    <button class="link" id="logoutBtn">Keluar</button>
+  </header>
+
+  <main>
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="dashboard">Dashboard</button>
+      <button class="admin-tab" data-tab="voters">Daftar Pendaftar</button>
+      <button class="admin-tab" data-tab="candidates">Calon</button>
+      <button class="admin-tab" data-tab="results">Hasil</button>
+      <button class="admin-tab" data-tab="election">Pengaturan Pemilihan</button>
+    </div>
+
+    <!-- Dashboard -->
+    <section id="panel-dashboard" class="admin-panel">
+      <h2>Ringkasan</h2>
+      <div id="dashboardStats" class="stat-pair" style="grid-template-columns:repeat(3,1fr);"></div>
+      <div id="participationBox"></div>
+    </section>
+
+    <!-- Voters -->
+    <section id="panel-voters" class="admin-panel hidden">
+      <h2>Daftar Pendaftar</h2>
+      <div class="filter-row">
+        <button class="filter-chip active" data-filter="ALL">Semua</button>
+        <button class="filter-chip" data-filter="PENDING">Menunggu</button>
+        <button class="filter-chip" data-filter="APPROVED">Disetujui</button>
+        <button class="filter-chip" data-filter="REJECTED">Ditolak</button>
+        <button class="filter-chip" data-filter="VOTED">Sudah Memilih</button>
+      </div>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Nama</th><th>Email</th><th>Asal</th><th>Jabatan</th><th>Status</th><th>Aksi</th></tr></thead>
+          <tbody id="votersTableBody"><tr><td colspan="6" class="center muted">Memuat...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Candidates -->
+    <section id="panel-candidates" class="admin-panel hidden">
+      <h2>Manajemen Calon</h2>
+      <button class="btn btn-primary" id="candAddBtn">+ TAMBAH CALON</button>
+
+      <div class="card mt-16 hidden" id="candidateFormCard">
+        <h3>Form Calon</h3>
+        <form id="candidateForm">
+          <input type="hidden" id="candForm_id">
+          <div class="field"><label>Nomor Urut</label><input type="text" id="candForm_number" required></div>
+          <div class="field"><label>Nama Lengkap</label><input type="text" id="candForm_name" required></div>
+          <div class="field"><label>URL Foto</label><input type="text" id="candForm_photo" placeholder="https://..."></div>
+          <div class="field"><label>Profil Singkat</label><textarea id="candForm_bio"></textarea></div>
+          <div class="field"><label>Visi</label><textarea id="candForm_vision"></textarea></div>
+          <div class="field"><label>Misi</label><textarea id="candForm_mission"></textarea></div>
+          <div class="actions" style="display:flex;gap:10px;">
+            <button type="button" class="btn btn-outline" id="candCancelBtn" style="flex:1;">BATAL</button>
+            <button type="submit" class="btn btn-gold" style="flex:1;">SIMPAN</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="candidateAdminList" class="mt-16"></div>
+    </section>
+
+    <!-- Results -->
+    <section id="panel-results" class="admin-panel hidden">
+      <h2>Hasil Pemilihan</h2>
+      <div id="resultsNotice" class="info-box warn hidden">Hasil belum ditampilkan ke publik sesuai pengaturan pemilihan saat ini.</div>
+      <div class="card">
+        <div id="resultsList"></div>
+        <p class="result-meta" id="resultsTotal"></p>
+      </div>
+    </section>
+
+    <!-- Election settings -->
+    <section id="panel-election" class="admin-panel hidden">
+      <h2>Pengaturan Pemilihan</h2>
+      <div class="card">
+        <p>Status saat ini: <b id="electionStatusLabel">-</b></p>
+        <div style="display:flex;gap:10px;margin:14px 0;">
+          <button class="btn btn-primary" id="electionOpenBtn" style="flex:1;">BUKA PEMILIHAN</button>
+          <button class="btn btn-danger" id="electionCloseBtn" style="flex:1;">TUTUP PEMILIHAN</button>
+        </div>
+        <form id="electionSettingsForm">
+          <div class="field"><label>Nama Pemilihan</label><input type="text" id="electionName"></div>
+          <div class="field"><label>Waktu Mulai</label><input type="datetime-local" id="electionStart"></div>
+          <div class="field"><label>Waktu Selesai</label><input type="datetime-local" id="electionEnd"></div>
+          <button type="submit" class="btn btn-gold btn-block">SIMPAN PENGATURAN</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">Kwartir Daerah Hizbul Wathan Kabupaten Bandung — Admin Panel</footer>
+</div>
+
+<script src="config.js" onerror="document.write('&lt;script src=\'config.example.js\'&gt;&lt;/script&gt;')"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+<script>
+  document.getElementById('logoutBtn').addEventListener('click', AUTH.signOut);
+  ADMIN_PAGE.init();
+</script>
+</body>
+</html>

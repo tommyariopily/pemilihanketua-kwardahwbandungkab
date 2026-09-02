@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pendaftaran Pemilih — Pemilihan Ketua Kwarda HW Kabupaten Bandung</title>
+<link rel="icon" href="assets/logo-hw.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div class="page">
+  <header class="topbar">
+    <img class="logo" src="assets/logo-hw.png" alt="Logo Hizbul Wathan">
+    <div class="brand">Pemilihan Ketua Kwarda HW<small>Kabupaten Bandung</small></div>
+    <div class="spacer"></div>
+    <button class="link" id="logoutBtn">Keluar</button>
+  </header>
+
+  <main class="narrow">
+    <h2>Data Pemilih</h2>
+    <p class="muted">Lengkapi data berikut untuk mendaftar sebagai pemilih. Data Anda akan diverifikasi oleh Admin sebelum dapat digunakan untuk memilih.</p>
+
+    <form class="card" id="registerForm">
+      <div class="field">
+        <label for="voterName">Nama Lengkap</label>
+        <input type="text" id="voterName" readonly>
+      </div>
+      <div class="field">
+        <label for="voterEmail">Email Google</label>
+        <input type="email" id="voterEmail" readonly>
+      </div>
+      <div class="field">
+        <label for="voterWhatsapp">Nomor WhatsApp</label>
+        <input type="tel" id="voterWhatsapp" placeholder="08xxxxxxxxxx" required>
+      </div>
+      <div class="field">
+        <label for="voterIdentity">NIK / Identitas Organisasi</label>
+        <input type="text" id="voterIdentity" required>
+      </div>
+      <div class="field">
+        <label for="voterOrigin">Asal Kwartir Cabang / Qobilah</label>
+        <input type="text" id="voterOrigin" required>
+      </div>
+      <div class="field">
+        <label for="voterPosition">Jabatan / Status dalam Hizbul Wathan</label>
+        <input type="text" id="voterPosition" required>
+      </div>
+      <div class="field">
+        <label for="voterMemberNumber">Nomor Anggota (jika tersedia)</label>
+        <input type="text" id="voterMemberNumber">
+        <div class="hint">Boleh dikosongkan jika tidak tersedia.</div>
+      </div>
+      <div class="field">
+        <label for="voterNotes">Keterangan Tambahan</label>
+        <textarea id="voterNotes"></textarea>
+      </div>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="agreeCheck">
+        <label for="agreeCheck">Saya menyatakan bahwa data yang saya masukkan benar dan saya memiliki hak untuk mengikuti pemilihan Ketua Kwarda Hizbul Wathan Kabupaten Bandung.</label>
+      </div>
+
+      <button type="submit" class="btn btn-gold btn-block" id="submitRegister" disabled>KIRIM PENDAFTARAN</button>
+    </form>
+  </main>
+
+  <footer class="footer">Kwartir Daerah Hizbul Wathan Kabupaten Bandung</footer>
+</div>
+
+<script src="config.js" onerror="document.write('&lt;script src=\'config.example.js\'&gt;&lt;/script&gt;')"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/voter.js"></script>
+<script>
+  document.getElementById('logoutBtn').addEventListener('click', AUTH.signOut);
+  VOTER_PAGE.initRegisterPage();
+</script>
+</body>
+</html>

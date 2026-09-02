@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Pemilihan Ketua Kwarda HW Kabupaten Bandung</title>
+<link rel="icon" href="assets/logo-hw.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div class="page">
+  <header class="topbar">
+    <img class="logo" src="assets/logo-hw.png" alt="Logo Hizbul Wathan">
+    <div class="brand">Pemilihan Ketua Kwarda HW<small>Kabupaten Bandung</small></div>
+    <div class="spacer"></div>
+    <button class="link" id="logoutBtn">Keluar</button>
+  </header>
+
+  <main class="narrow">
+    <h2 id="welcomeMsg">Selamat datang</h2>
+
+    <div class="stat-pair">
+      <div class="stat-box">
+        <div class="lbl" style="margin-bottom:6px;">STATUS PEMILIH</div>
+        <div id="voterStatusBadge" class="status-badge status-pending"><span class="dot"></span>Memuat...</div>
+      </div>
+      <div class="stat-box">
+        <div class="lbl" style="margin-bottom:6px;">STATUS HAK SUARA</div>
+        <div id="voteStatusBadge" class="status-badge status-pending"><span class="dot"></span>Memuat...</div>
+      </div>
+    </div>
+
+    <div id="votedNotice" class="info-box hidden">Anda telah menggunakan hak suara.</div>
+
+    <div class="menu-grid">
+      <a href="status.html" class="menu-item">📋 Status Pendaftaran</a>
+      <a href="vote.html" id="voteMenuItem" class="menu-item">🗳️ Pemilihan Ketua Kwarda</a>
+      <a href="#" class="menu-item" id="guideMenuItem">📖 Petunjuk Pemilihan</a>
+      <a href="index.html" class="menu-item" id="logoutMenuItem">🚪 Keluar</a>
+    </div>
+
+    <div class="card mt-24 hidden" id="guideCard">
+      <h3>Petunjuk Pemilihan</h3>
+      <ol class="steps">
+        <li><span class="num">1</span> Buka menu "Pemilihan Ketua Kwarda"</li>
+        <li><span class="num">2</span> Baca profil, visi, dan misi setiap calon</li>
+        <li><span class="num">3</span> Pilih satu calon</li>
+        <li><span class="num">4</span> Konfirmasi pilihan Anda</li>
+        <li><span class="num">5</span> Suara tersimpan dan tidak dapat diubah</li>
+      </ol>
+    </div>
+  </main>
+
+  <footer class="footer">Kwartir Daerah Hizbul Wathan Kabupaten Bandung</footer>
+</div>
+
+<script src="config.js" onerror="document.write('&lt;script src=\'config.example.js\'&gt;&lt;/script&gt;')"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  const session = APP.requireLogin('login.html');
+  if (session) {
+    document.getElementById('logoutBtn').addEventListener('click', AUTH.signOut);
+    document.getElementById('logoutMenuItem').addEventListener('click', function (e) { e.preventDefault(); AUTH.signOut(); });
+    document.getElementById('guideMenuItem').addEventListener('click', function (e) {
+      e.preventDefault();
+      document.getElementById('guideCard').classList.toggle('hidden');
+    });
+    document.getElementById('welcomeMsg').textContent = 'Selamat datang, ' + (session.name || session.email);
+
+    APP.call('getVoterStatus', {}, { silent: true }).then(function (res) {
+      const badges = {
+        NOT_REGISTERED: ['status-pending', 'Belum Terdaftar'],
+        PENDING: ['status-pending', 'Menunggu Approval'],
+        APPROVED: ['status-approved', 'Disetujui'],
+        REJECTED: ['status-rejected', 'Ditolak'],
+        VOTED: ['status-voted', 'Disetujui']
+      };
+      const b = badges[res.status] || badges.NOT_REGISTERED;
+      const el = document.getElementById('voterStatusBadge');
+      el.className = 'status-badge ' + b[0];
+      el.innerHTML = '<span class="dot"></span>' + b[1];
+
+      const voteEl = document.getElementById('voteStatusBadge');
+      if (res.status === 'VOTED') {
+        voteEl.className = 'status-badge status-voted';
+        voteEl.innerHTML = '<span class="dot"></span>Sudah Memilih';
+        document.getElementById('votedNotice').classList.remove('hidden');
+        document.getElementById('voteMenuItem').classList.add('hidden');
+      } else {
+        voteEl.className = 'status-badge status-pending';
+        voteEl.innerHTML = '<span class="dot"></span>Belum Memilih';
+      }
+
+      if (res.status === 'NOT_REGISTERED') window.location.href = 'register.html';
+    });
+  }
+</script>
+</body>
+</html>

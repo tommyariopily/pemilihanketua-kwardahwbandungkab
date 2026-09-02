@@ -1,0 +1,51 @@
+.admin-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 18px; }
+.admin-tab {
+  flex-shrink: 0; padding: 9px 16px; border-radius: 100px; border: 1px solid var(--hw-gray-line);
+  background: #fff; font-size: 13.5px; font-weight: 600; color: var(--hw-ink-muted); cursor: pointer;
+}
+.admin-tab.active { background: var(--hw-green-deep); border-color: var(--hw-green-deep); color: #fff; }
+
+.filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.filter-chip {
+  padding: 7px 14px; border-radius: 100px; border: 1px solid var(--hw-gray-line);
+  background: #fff; font-size: 13px; cursor: pointer; color: var(--hw-ink-muted);
+}
+.filter-chip.active { background: var(--hw-gold-soft); border-color: var(--hw-gold); color: #8A6A16; font-weight: 700; }
+
+.table-wrap { background: #fff; border: 1px solid var(--hw-gray-line); border-radius: var(--radius-m); overflow: hidden; }
+table.admin-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+table.admin-table th {
+  text-align: left; background: var(--hw-green-soft); color: var(--hw-green-deep);
+  padding: 11px 14px; font-weight: 700; font-size: 12.5px; text-transform: none;
+  border-bottom: 1px solid var(--hw-gray-line);
+}
+table.admin-table td { padding: 11px 14px; border-bottom: 1px solid var(--hw-gray-line); vertical-align: middle; }
+table.admin-table tr:last-child td { border-bottom: none; }
+table.admin-table tr:hover td { background: var(--hw-gray); }
+
+.pill { display: inline-block; padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 700; }
+.pill-pending { background: var(--hw-gold-soft); color: #8A6A16; }
+.pill-approved { background: var(--hw-green-soft); color: var(--hw-green-deep); }
+.pill-rejected { background: var(--hw-red-soft); color: var(--hw-red); }
+.pill-voted { background: var(--hw-blue-soft); color: var(--hw-blue); }
+
+.row-actions { display: flex; gap: 6px; }
+.row-actions button {
+  border: 1px solid var(--hw-gray-line); background: #fff; border-radius: var(--radius-s);
+  padding: 5px 10px; font-size: 12px; cursor: pointer; font-weight: 600;
+}
+.row-actions button.approve { color: var(--hw-green-deep); border-color: var(--hw-green); }
+.row-actions button.reject { color: var(--hw-red); border-color: var(--hw-red); }
+
+.candidate-admin-row {
+  display: flex; gap: 12px; align-items: center; background: #fff; border: 1px solid var(--hw-gray-line);
+  border-radius: var(--radius-m); padding: 12px; margin-bottom: 10px;
+}
+.candidate-admin-row img { width: 52px; height: 52px; border-radius: var(--radius-s); object-fit: cover; background: var(--hw-green-soft); }
+.candidate-admin-row .info { flex: 1; min-width: 0; }
+.candidate-admin-row .info .n { font-weight: 700; color: var(--hw-green-deep); font-size: 14px; }
+.candidate-admin-row .info .s { font-size: 12px; color: var(--hw-ink-muted); }
+
+.progress-participation { margin: 18px 0; }
+.progress-participation .num-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+.progress-participation .num-row b { color: var(--hw-green-deep); font-family: var(--font-display); font-size: 18px; }
