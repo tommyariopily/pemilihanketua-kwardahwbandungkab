@@ -39,6 +39,7 @@
       if (!agree.checked) return;
 
       const payload = {
+        name: APP.qs('#voterName').value.trim(),
         whatsapp: APP.qs('#voterWhatsapp').value.trim(),
         identityNumber: APP.qs('#voterIdentity').value.trim(),
         origin: APP.qs('#voterOrigin').value.trim(),
@@ -47,6 +48,10 @@
         notes: APP.qs('#voterNotes').value.trim()
       };
 
+      if (!payload.name || payload.name.length < 3) {
+        APP.toast('Nama lengkap wajib diisi (minimal 3 karakter).', 'error');
+        return Promise.resolve();
+      }
       if (!payload.origin || payload.origin.length < 2) {
         APP.toast('Asal Kwartir Cabang / Qobilah wajib diisi.', 'error');
         return Promise.resolve();
