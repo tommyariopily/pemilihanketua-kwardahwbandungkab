@@ -24,7 +24,8 @@
     <form class="card" id="registerForm">
       <div class="field">
         <label for="voterName">Nama Lengkap</label>
-        <input type="text" id="voterName" readonly>
+        <input type="text" id="voterName" required minlength="3">
+        <div class="hint">Terisi otomatis dari akun Google Anda — dapat diubah jika ada perbedaan penulisan nama.</div>
       </div>
       <div class="field">
         <label for="voterEmail">Email Google</label>
