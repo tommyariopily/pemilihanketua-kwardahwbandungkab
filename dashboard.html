@@ -36,6 +36,7 @@
     <div class="menu-grid">
       <a href="status.html" class="menu-item">📋 Status Pendaftaran</a>
       <a href="vote.html" id="voteMenuItem" class="menu-item">🗳️ Pemilihan Ketua Kwarda</a>
+      <a href="results.html" id="resultsMenuItem" class="menu-item hidden">🏆 Hasil Pemilihan</a>
       <a href="#" class="menu-item" id="guideMenuItem">📖 Petunjuk Pemilihan</a>
       <a href="index.html" class="menu-item" id="logoutMenuItem">🚪 Keluar</a>
     </div>
@@ -49,6 +50,14 @@
         <li><span class="num">4</span> Konfirmasi pilihan Anda</li>
         <li><span class="num">5</span> Suara tersimpan dan tidak dapat diubah</li>
       </ol>
+    </div>
+
+    <div class="card mt-24 hidden" id="resultsPreviewCard">
+      <h3>Hasil Pemilihan Ketua Kwarda</h3>
+      <p class="muted" style="font-size:13px;">Pemungutan suara telah ditutup. Berikut hasil resminya.</p>
+      <div id="resultsPreviewList"></div>
+      <p class="result-meta" id="resultsPreviewTotal"></p>
+      <a href="results.html" class="btn btn-outline btn-block mt-16">LIHAT HALAMAN HASIL LENGKAP</a>
     </div>
   </main>
 
@@ -95,6 +104,27 @@
 
       if (res.status === 'NOT_REGISTERED') window.location.href = 'register.html';
     });
+
+    // Hasil hanya tampil (di menu maupun ringkasan) setelah pemilihan resmi
+    // ditutup — server (getResults) yang menentukan resultsVisible, bukan
+    // frontend, sehingga aturan kerahasiaan tetap ditegakkan di GAS.
+    APP.call('getResults', {}, { silent: true, silentError: true }).then(function (res) {
+      if (!res.resultsVisible) return;
+
+      document.getElementById('resultsMenuItem').classList.remove('hidden');
+
+      const total = res.totalVotes || 0;
+      document.getElementById('resultsPreviewList').innerHTML = res.candidates.map(function (c) {
+        const pct = total > 0 ? ((c.voteCount / total) * 100).toFixed(2) : '0.00';
+        return '<div class="result-row">' +
+          '<div class="result-head"><span class="name">' + APP.escapeHtml(c.number) + ' — ' + APP.escapeHtml(c.name) + '</span>' +
+          '<span class="pct">' + pct + '%</span></div>' +
+          '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div>' +
+          '<div class="result-meta">Jumlah suara: ' + c.voteCount + '</div></div>';
+      }).join('');
+      document.getElementById('resultsPreviewTotal').textContent = 'Total suara masuk: ' + total;
+      document.getElementById('resultsPreviewCard').classList.remove('hidden');
+    }).catch(function () { /* diam saja jika hasil belum tersedia */ });
   }
 </script>
 </body>
