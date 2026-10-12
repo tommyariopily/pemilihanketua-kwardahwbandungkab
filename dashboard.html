@@ -2,130 +2,162 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
 <title>Dashboard — Pemilihan Ketua Kwarda HW Kabupaten Bandung</title>
-<link rel="icon" href="assets/logo-hw.png">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/responsive.css">
+<link rel="icon" type="image/png" href="/assets/logo-hw.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<style>nav{display:none}</style>
 </head>
 <body>
-<div class="page">
-  <header class="topbar">
-    <img class="logo" src="assets/logo-hw.png" alt="Logo Hizbul Wathan">
-    <div class="brand">Pemilihan Ketua Kwarda HW<small>Kabupaten Bandung</small></div>
-    <div class="spacer"></div>
-    <button class="link" id="logoutBtn">Keluar</button>
+<main>
+  <header>
+    <div class="top">
+      <div class="brand">
+        <img src="assets/logo-hw.png" alt="Logo Hizbul Wathan">
+        <div class="who-wrap"><p>Dashboard pemilih</p><span id="userName"></span></div>
+      </div>
+      <div class="hact"><button class="btn g" id="logoutBtn">Keluar</button></div>
+    </div>
+    <h1>Pemilihan Ketua Kwarda Hizbul Wathan Kabupaten Bandung</h1>
+    <div class="status"><span class="dot" id="statusDot"></span><span id="statusText">Memuat status…</span></div>
   </header>
 
-  <main class="narrow">
-    <h2 id="welcomeMsg">Selamat datang</h2>
+  <div class="card lead" id="leadCard">
+    <div class="who">Status pemilih</div>
+    <div class="big" id="leadBig">Memuat…</div>
+    <div class="sub" id="leadSub"></div>
+    <div id="leadExtra"></div>
+  </div>
 
-    <div class="stat-pair">
-      <div class="stat-box">
-        <div class="lbl" style="margin-bottom:6px;">STATUS PEMILIH</div>
-        <div id="voterStatusBadge" class="status-badge status-pending"><span class="dot"></span>Memuat...</div>
-      </div>
-      <div class="stat-box">
-        <div class="lbl" style="margin-bottom:6px;">STATUS HAK SUARA</div>
-        <div id="voteStatusBadge" class="status-badge status-pending"><span class="dot"></span>Memuat...</div>
-      </div>
-    </div>
+  <div class="stats">
+    <div class="stat"><span>Status pendaftaran</span><b id="stReg" style="font-size:17px;margin-top:6px">–</b></div>
+    <div class="stat"><span>Hak suara</span><b id="stVote" style="font-size:17px;margin-top:6px">–</b></div>
+  </div>
 
-    <div id="votedNotice" class="info-box hidden">Anda telah menggunakan hak suara.</div>
+  <div class="menu">
+    <a class="mi" href="status.html"><span class="ic">📋</span><span>Status Pendaftaran<small>Lihat detail pendaftaran Anda</small></span><span class="go">›</span></a>
+    <a class="mi" href="vote.html" id="voteMenu"><span class="ic">🗳️</span><span>Pemilihan Ketua Kwarda<small>Gunakan hak suara Anda</small></span><span class="go">›</span></a>
+    <a class="mi" href="results.html" id="resultsMenu" hidden><span class="ic">🏆</span><span>Hasil Pemilihan<small>Hasil resmi setelah pemungutan suara ditutup</small></span><span class="go">›</span></a>
+  </div>
 
-    <div class="menu-grid">
-      <a href="status.html" class="menu-item">📋 Status Pendaftaran</a>
-      <a href="vote.html" id="voteMenuItem" class="menu-item">🗳️ Pemilihan Ketua Kwarda</a>
-      <a href="results.html" id="resultsMenuItem" class="menu-item hidden">🏆 Hasil Pemilihan</a>
-      <a href="#" class="menu-item" id="guideMenuItem">📖 Petunjuk Pemilihan</a>
-      <a href="index.html" class="menu-item" id="logoutMenuItem">🚪 Keluar</a>
-    </div>
+  <details class="card">
+    <summary>📖 Petunjuk Pemilihan</summary>
+    <ol>
+      <li>Buka menu "Pemilihan Ketua Kwarda".</li>
+      <li>Baca profil, visi, dan misi setiap calon.</li>
+      <li>Pilih satu calon, lalu konfirmasi pilihan Anda.</li>
+      <li>Suara tersimpan dan tidak dapat diubah.</li>
+    </ol>
+  </details>
 
-    <div class="card mt-24 hidden" id="guideCard">
-      <h3>Petunjuk Pemilihan</h3>
-      <ol class="steps">
-        <li><span class="num">1</span> Buka menu "Pemilihan Ketua Kwarda"</li>
-        <li><span class="num">2</span> Baca profil, visi, dan misi setiap calon</li>
-        <li><span class="num">3</span> Pilih satu calon</li>
-        <li><span class="num">4</span> Konfirmasi pilihan Anda</li>
-        <li><span class="num">5</span> Suara tersimpan dan tidak dapat diubah</li>
-      </ol>
-    </div>
+  <div class="card" id="resultsCard" hidden>
+    <h2>Hasil Pemilihan <small>resmi</small></h2>
+    <div id="resultsList"></div>
+    <p class="note" style="margin-top:14px" id="resultsTotal"></p>
+    <a href="results.html" class="btn g block" style="margin-top:12px">Lihat halaman hasil lengkap</a>
+  </div>
 
-    <div class="card mt-24 hidden" id="resultsPreviewCard">
-      <h3>Hasil Pemilihan Ketua Kwarda</h3>
-      <p class="muted" style="font-size:13px;">Pemungutan suara telah ditutup. Berikut hasil resminya.</p>
-      <div id="resultsPreviewList"></div>
-      <p class="result-meta" id="resultsPreviewTotal"></p>
-      <a href="results.html" class="btn btn-outline btn-block mt-16">LIHAT HALAMAN HASIL LENGKAP</a>
-    </div>
-  </main>
-
-  <footer class="footer">Kwartir Daerah Hizbul Wathan Kabupaten Bandung</footer>
-</div>
+  <p class="note">🔒 <span>Suara Anda bersifat rahasia. Tidak ada pihak yang dapat melihat siapa memilih siapa.</span></p>
+</main>
 
 <script src="config.js" onerror="document.write('&lt;script src=\'config.example.js\'&gt;&lt;/script&gt;')"></script>
 <script src="js/app.js"></script>
 <script src="js/auth.js"></script>
 <script>
-  const session = APP.requireLogin('login.html');
-  if (session) {
-    document.getElementById('logoutBtn').addEventListener('click', AUTH.signOut);
-    document.getElementById('logoutMenuItem').addEventListener('click', function (e) { e.preventDefault(); AUTH.signOut(); });
-    document.getElementById('guideMenuItem').addEventListener('click', function (e) {
-      e.preventDefault();
-      document.getElementById('guideCard').classList.toggle('hidden');
-    });
-    document.getElementById('welcomeMsg').textContent = 'Selamat datang, ' + (session.name || session.email);
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = APP.escapeHtml;
+  var session = APP.requireLogin('login.html');
+  if (!session) return;
 
-    APP.call('getVoterStatus', {}, { silent: true }).then(function (res) {
-      const badges = {
-        NOT_REGISTERED: ['status-pending', 'Belum Terdaftar'],
-        PENDING: ['status-pending', 'Menunggu Approval'],
-        APPROVED: ['status-approved', 'Disetujui'],
-        REJECTED: ['status-rejected', 'Ditolak'],
-        VOTED: ['status-voted', 'Disetujui']
-      };
-      const b = badges[res.status] || badges.NOT_REGISTERED;
-      const el = document.getElementById('voterStatusBadge');
-      el.className = 'status-badge ' + b[0];
-      el.innerHTML = '<span class="dot"></span>' + b[1];
+  $('logoutBtn').addEventListener('click', AUTH.signOut);
+  $('userName').textContent = session.name || session.email;
 
-      const voteEl = document.getElementById('voteStatusBadge');
-      if (res.status === 'VOTED') {
-        voteEl.className = 'status-badge status-voted';
-        voteEl.innerHTML = '<span class="dot"></span>Sudah Memilih';
-        document.getElementById('votedNotice').classList.remove('hidden');
-        document.getElementById('voteMenuItem').classList.add('hidden');
-      } else {
-        voteEl.className = 'status-badge status-pending';
-        voteEl.innerHTML = '<span class="dot"></span>Belum Memilih';
-      }
-
-      if (res.status === 'NOT_REGISTERED') window.location.href = 'register.html';
-    });
-
-    // Hasil hanya tampil (di menu maupun ringkasan) setelah pemilihan resmi
-    // ditutup — server (getResults) yang menentukan resultsVisible, bukan
-    // frontend, sehingga aturan kerahasiaan tetap ditegakkan di GAS.
-    APP.call('getResults', {}, { silent: true, silentError: true }).then(function (res) {
-      if (!res.resultsVisible) return;
-
-      document.getElementById('resultsMenuItem').classList.remove('hidden');
-
-      const total = res.totalVotes || 0;
-      document.getElementById('resultsPreviewList').innerHTML = res.candidates.map(function (c) {
-        const pct = total > 0 ? ((c.voteCount / total) * 100).toFixed(2) : '0.00';
-        return '<div class="result-row">' +
-          '<div class="result-head"><span class="name">' + APP.escapeHtml(c.number) + ' — ' + APP.escapeHtml(c.name) + '</span>' +
-          '<span class="pct">' + pct + '%</span></div>' +
-          '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div>' +
-          '<div class="result-meta">Jumlah suara: ' + c.voteCount + '</div></div>';
-      }).join('');
-      document.getElementById('resultsPreviewTotal').textContent = 'Total suara masuk: ' + total;
-      document.getElementById('resultsPreviewCard').classList.remove('hidden');
-    }).catch(function () { /* diam saja jika hasil belum tersedia */ });
+  function setLead(big, sub, extra) {
+    $('leadBig').textContent = big;
+    $('leadSub').textContent = sub || '';
+    $('leadExtra').innerHTML = extra || '';
   }
+
+  function remaining(endIso) {
+    var m = Math.round((new Date(endIso) - Date.now()) / 6e4);
+    if (m <= 0) return 'segera ditutup';
+    if (m >= 1440) return 'tutup dalam ' + Math.floor(m / 1440) + ' hari ' + Math.floor((m % 1440) / 60) + ' jam';
+    if (m >= 60) return 'tutup dalam ' + Math.floor(m / 60) + ' jam ' + (m % 60) + ' menit';
+    return 'tutup dalam ' + m + ' menit';
+  }
+
+  function renderElection(e) {
+    $('statusDot').className = 'dot ' + String(e.status).toLowerCase();
+    if (e.status === 'OPEN') $('statusText').textContent = 'Pemungutan suara dibuka' + (e.endTime ? ' · ' + remaining(e.endTime) : '');
+    else if (e.status === 'CLOSED') $('statusText').textContent = 'Pemungutan suara ditutup';
+    else $('statusText').textContent = 'Pemilihan belum dibuka';
+  }
+
+  function renderVoter(v, election) {
+    var open = election && election.status === 'OPEN';
+    var closed = election && election.status === 'CLOSED';
+
+    if (v.status === 'NOT_REGISTERED') { window.location.href = 'register.html'; return; }
+
+    if (v.status === 'PENDING') {
+      $('stReg').textContent = 'Menunggu approval'; $('stVote').textContent = 'Belum aktif';
+      setLead('Menunggu persetujuan Admin', 'Anda belum dapat memberikan suara sebelum pendaftaran disetujui oleh Admin.');
+    } else if (v.status === 'REJECTED') {
+      $('stReg').textContent = 'Ditolak'; $('stVote').textContent = 'Tidak aktif';
+      setLead('Pendaftaran ditolak', 'Pendaftaran Anda belum dapat disetujui. Silakan hubungi Admin.' +
+        (v.rejectionReason ? ' Catatan: ' + v.rejectionReason : ''));
+    } else if (v.status === 'VOTED') {
+      $('stReg').textContent = 'Disetujui'; $('stVote').textContent = 'Sudah memilih';
+      setLead('Anda telah menggunakan hak suara', 'Terima kasih atas partisipasi Anda.',
+        v.referenceCode ? '<span class="ref">' + esc(v.referenceCode) + '</span>' : '');
+      $('voteMenu').hidden = true;
+    } else {
+      $('stReg').textContent = 'Disetujui'; $('stVote').textContent = 'Belum memilih';
+      if (open) setLead('Anda dapat memilih', 'Pendaftaran disetujui. Gunakan hak suara Anda sekarang.',
+        '<a href="vote.html" class="btn gold block">MULAI PEMILIHAN</a>');
+      else if (closed) setLead('Pemungutan suara ditutup', 'Masa pemungutan suara telah berakhir.');
+      else setLead('Pendaftaran disetujui', 'Pemungutan suara belum dibuka. Silakan kembali saat pemilihan dimulai.');
+    }
+  }
+
+  function renderResults(res) {
+    if (!res || !res.resultsVisible) return;
+    $('resultsMenu').hidden = false;
+    var T = res.totalVotes || 0, max = 0;
+    res.candidates.forEach(function (c) { if (c.voteCount > max) max = c.voteCount; });
+    $('resultsList').innerHTML = res.candidates.map(function (c) {
+      var p = T > 0 ? (c.voteCount / T * 100).toFixed(2) : '0.00';
+      var lead = T > 0 && c.voteCount === max ? ' <span class="tag ok">Terbanyak</span>' : '';
+      return '<div class="res-row"><div class="head"><span>' + esc(c.number) + ' — ' + esc(c.name) + lead + '</span><span>' + p + '%</span></div>' +
+        '<div class="bar"><u style="width:' + p + '%"></u></div><div class="meta">Jumlah suara: ' + c.voteCount + '</div></div>';
+    }).join('');
+    $('resultsTotal').textContent = 'Total suara masuk: ' + T;
+    $('resultsCard').hidden = false;
+  }
+
+  // Server yang menentukan status & kapan hasil boleh tampil (getResults);
+  // frontend hanya menampilkan.
+  var opts = { silent: true, silentError: true };
+  APP.showLoading('Memuat data...');
+  Promise.all([
+    APP.call('getVoterStatus', {}, opts),
+    APP.call('getElectionStatus', {}, opts).catch(function () { return null; }),
+    APP.call('getResults', {}, opts).catch(function () { return null; })
+  ]).then(function (r) {
+    APP.hideLoading();
+    if (r[1]) renderElection(r[1]); else $('statusText').textContent = 'Status pemilihan tidak tersedia';
+    renderVoter(r[0], r[1]);
+    renderResults(r[2]);
+  }).catch(function (err) {
+    APP.hideLoading();
+    if (err && err.code === 'UNAUTHENTICATED') { APP.clearSession(); window.location.href = 'login.html'; return; }
+    setLead('Tidak dapat memuat data', 'Terjadi kendala saat menghubungkan ke server. Silakan coba kembali.');
+  });
+})();
 </script>
 </body>
 </html>
